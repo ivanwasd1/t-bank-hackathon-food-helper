@@ -1,6 +1,4 @@
 
-version: '3.8'
-
 services:
   backend:
     build: ./backend
@@ -11,6 +9,7 @@ services:
       - ./backend:/app
     environment:
       - PYTHONUNBUFFERED=1
+    restart: unless-stopped
 
   frontend:
     build: .
@@ -21,7 +20,8 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      - VITE_API_URL=http://localhost:8000
-      - VITE_API_KEY=${VITE_API_KEY} # Passes from host .env file
+      - VITE_API_URL=http://backend:8000
+      - VITE_API_KEY=${VITE_API_KEY:-default_key}
     depends_on:
       - backend
+    restart: unless-stopped
