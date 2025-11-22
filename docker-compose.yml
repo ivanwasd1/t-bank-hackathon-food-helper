@@ -1,0 +1,27 @@
+
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: bentofy_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  frontend:
+    build: .
+    container_name: bentofy_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_API_KEY=${VITE_API_KEY} # Passes from host .env file
+    depends_on:
+      - backend
