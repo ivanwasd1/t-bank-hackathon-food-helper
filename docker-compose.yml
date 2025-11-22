@@ -41,13 +41,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/dist
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    command: ["npm", "run", "dev"]
     depends_on:
       - bentofy_backend
     restart: unless-stopped
