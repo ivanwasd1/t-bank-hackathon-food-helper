@@ -1,18 +1,26 @@
-FROM node:18-alpine
+# Build stage
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
 # Install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy source code
+# Copy source and build
 COPY . .
+RUN npm run build
 
-# Expose port
+# Production stage
+FROM node:18-alpine
+WORKDIR /app
+
+# Install a simple static server
+RUN npm install -g serve
+
+# Copy build artifacts
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 3000
 
-# Start the application with proper host configuration
-CMD ["npx", "vite", "dev", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
