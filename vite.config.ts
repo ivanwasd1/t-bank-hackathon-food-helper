@@ -11,7 +11,9 @@ export default defineConfig(({ mode }) => {
       'process.env.API_KEY': JSON.stringify(env.VITE_API_KEY),
     },
     server: {
-      port: 5173,
+      port: 3000,
+      host: true,
+      strictPort: false,
     },
     resolve: {
       alias: {
