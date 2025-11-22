@@ -2,29 +2,36 @@
 
 A personalized meal-planning application powered by Gemini AI.
 
-## Quick Start (One Command)
+## Setup & Run Locally
 
-1.  **Linux/Mac**: Run the start script.
-    ```bash
-    ./start.sh
-    ```
+You will need two terminals open: one for the Backend (Python) and one for the Frontend (React).
 
-2.  **Windows**:
-    ```bash
-    docker-compose up --build
-    ```
-    *(Note: You must create a .env file first on Windows, see below)*
+### 1. Configure Environment
+Create a `.env` file in the root directory and add your Google Gemini API Key:
+```env
+VITE_API_KEY=AIzaSy...
+```
 
-## Manual Setup
+### 2. Start Backend (Terminal 1)
+Make sure you have Python installed.
 
-1.  Create a `.env` file in the root directory:
-    ```bash
-    cp .env.example .env
-    ```
-2.  Open `.env` and paste your Google Gemini API Key.
-3.  Run Docker Compose:
-    ```bash
-    docker-compose up --build
-    ```
+```bash
+# Install dependencies
+pip install -r backend/requirements.txt
+
+# Run the server
+uvicorn backend.main:app --reload --port 8000
+```
+
+### 3. Start Frontend (Terminal 2)
+Make sure you have Node.js installed.
+
+```bash
+# Install dependencies
+npm install
+
+# Run the app
+npm run dev
+```
 
 The app will be available at: **http://localhost:5173**
