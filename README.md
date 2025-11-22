@@ -1,20 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Bentofy
 
-# Run and deploy your AI Studio app
+A personalized meal-planning application powered by Gemini AI.
 
-This contains everything you need to run your app locally.
+## Quick Start (One Command)
 
-View your app in AI Studio: https://ai.studio/apps/temp/1
+1.  **Linux/Mac**: Run the start script.
+    ```bash
+    ./start.sh
+    ```
 
-## Run Locally
+2.  **Windows**:
+    ```bash
+    docker-compose up --build
+    ```
+    *(Note: You must create a .env file first on Windows, see below)*
 
-**Prerequisites:**  Node.js
+## Manual Setup
 
+1.  Create a `.env` file in the root directory:
+    ```bash
+    cp .env.example .env
+    ```
+2.  Open `.env` and paste your Google Gemini API Key.
+3.  Run Docker Compose:
+    ```bash
+    docker-compose up --build
+    ```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The app will be available at: **http://localhost:5173**

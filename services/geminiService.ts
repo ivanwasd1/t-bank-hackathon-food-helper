@@ -50,17 +50,6 @@ export const generateRecipeSuggestions = async (
     - User Goal: ${preferences.goal}
     - Cuisines: ${preferences.cuisines.join(', ')}
     - Vegetarian: ${preferences.veg}
-    
-    Return the response as a JSON array of objects strictly following this schema:
-    {
-      "title": string,
-      "calories": number,
-      "protein": string (e.g. "20g"),
-      "time": string (e.g. "30 mins"),
-      "cuisine": string (One of the requested cuisines),
-      "ingredients": [{"name": string, "quantity": string, "inFridge": boolean}],
-      "steps": string[]
-    }
   `;
 
   try {
@@ -69,6 +58,34 @@ export const generateRecipeSuggestions = async (
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              title: { type: Type.STRING },
+              calories: { type: Type.NUMBER },
+              protein: { type: Type.STRING },
+              time: { type: Type.STRING },
+              cuisine: { type: Type.STRING },
+              ingredients: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    name: { type: Type.STRING },
+                    quantity: { type: Type.STRING },
+                    inFridge: { type: Type.BOOLEAN },
+                  },
+                },
+              },
+              steps: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+            },
+          },
+        },
       }
     });
     
