@@ -1,0 +1,51 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fffbeb 0%, #fff7cd 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Цветовая палитра на основе #FFDD2D */
+:root {
+  /* Основные цвета фона */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fffbeb;
+  --bg-tertiary: #fff7cd;
+  --bg-quaternary: #fff3aa;
+  
+  /* Цвета текста */
+  --text-primary: #1a1a1a;
+  --text-secondary: #333333;
+  --text-tertiary: #666666;
+  --text-quaternary: #999999;
+  
+  /* Акцентные цвета (основные - #FFDD2D) */
+  --accent-primary: #FFDD2D; /* Главный акцент */
+  --accent-secondary: #FFC800; /* Темнее оттенок */
+  --accent-tertiary: #FFE666; /* Светлее оттенок */
+  --accent-quaternary: #FFB800; /* Дополнительный акцент */
+  
+  /* Дополнительные цвета */
+  --border-color: #ffe066;
+  --border-focus: #FFDD2D;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
+  --shadow-accent: 0 4px 16px rgba(255, 221, 45, 0.3);
+  --shadow-yellow: 0 8px 25px rgba(255, 221, 45, 0.35);
+  --shadow-yellow-lg: 0 12px 35px rgba(255, 221, 45, 0.4);
+  
+  /* Радиусы скругления */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --radius-circle: 50%;
+  
+  /* Переходы */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.35s ease;
+}
+

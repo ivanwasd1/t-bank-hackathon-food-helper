@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предпросмотр цветов кнопок меню</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .button-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .button-card h3 {
+            margin-bottom: 16px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .button-preview {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .button-preview:hover {
+            transform: translateY(-2px);
+        }
+
+        .sport {
+            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A6F 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .sport:hover {
+            background: linear-gradient(135deg, #EE5A6F 0%, #FF6B6B 100%);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .diverse {
+            background: linear-gradient(135deg, #A8E6CF 0%, #56CCF2 100%);
+            box-shadow: 0 4px 15px rgba(168, 230, 207, 0.3);
+        }
+
+        .diverse:hover {
+            background: linear-gradient(135deg, #56CCF2 0%, #A8E6CF 100%);
+            box-shadow: 0 6px 20px rgba(168, 230, 207, 0.4);
+        }
+
+        .light {
+            background: linear-gradient(135deg, #FFD93D 0%, #FFA500 100%);
+            box-shadow: 0 4px 15px rgba(255, 217, 61, 0.3);
+        }
+
+        .light:hover {
+            background: linear-gradient(135deg, #FFA500 0%, #FFD93D 100%);
+            box-shadow: 0 6px 20px rgba(255, 217, 61, 0.4);
+        }
+
+        .random {
+            background: linear-gradient(135deg, #B565D8 0%, #8E44AD 100%);
+            box-shadow: 0 4px 15px rgba(181, 101, 216, 0.3);
+        }
+
+        .random:hover {
+            background: linear-gradient(135deg, #8E44AD 0%, #B565D8 100%);
+            box-shadow: 0 6px 20px rgba(181, 101, 216, 0.4);
+        }
+
+        .color-info {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .comparison {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .comparison h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .old-button, .new-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+
+        .old-button {
+            opacity: 0.6;
+        }
+
+        .label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        .features {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .features h3 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: #333;
+        }
+
+        .features li:before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Предпросмотр новых цветов кнопок</h1>
+        <p class="subtitle">Наведите на кнопки, чтобы увидеть эффект</p>
+
+        <div class="buttons-grid">
+            <div class="button-card">
+                <h3>Спортивное меню</h3>
+                <button class="button-preview sport">
+                    <span class="emoji">🔥</span>Спортивное меню
+                </button>
+                <div class="color-info">
+                    <strong>Градиент:</strong><br>
+                    #FF6B6B → #EE5A6F<br>
+                    <strong>Ассоциация:</strong><br>
+                    Энергия, сила, активность
+                </div>
+            </div>
+
+            <div class="button-card">
+                <h3>Разнообразное меню</h3>
+                <button class="button-preview diverse">
+                    <span class="emoji">🌈</span>Разнообразное меню
+                </button>
+                <div class="color-info">
+                    <strong>Градиент:</strong><br>
+                    #A8E6CF → #56CCF2<br>
+                    <strong>Ассоциация:</strong><br>
+                    Свежесть, природа, разнообразие
+                </div>
+            </div>
+
+            <div class="button-card">
+                <h3>Легкое меню</h3>
+                <button class="button-preview light">
+                    <span class="emoji">☀️</span>Легкое меню
+                </button>
+                <div class="color-info">
+                    <strong>Градиент:</strong><br>
+                    #FFD93D → #FFA500<br>
+                    <strong>Ассоциация:</strong><br>
+                    Солнце, легкость, витамины
+                </div>
+            </div>
+
+            <div class="button-card">
+                <h3>Случайное меню</h3>
+                <button class="button-preview random">
+                    <span class="emoji">🎲</span>Случайное меню
+                </button>
+                <div class="color-info">
+                    <strong>Градиент:</strong><br>
+                    #B565D8 → #8E44AD<br>
+                    <strong>Ассоциация:</strong><br>
+                    Загадочность, сюрприз, случайность
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <h2>📊 Сравнение: До и После</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <div class="label">Спортивное меню</div>
+                <div class="comparison-grid">
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">До</div>
+                        <div class="old-button" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            Старый цвет
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">После</div>
+                        <div class="new-button sport">
+                            🔥 Новый цвет
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div class="label">Разнообразное меню</div>
+                <div class="comparison-grid">
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">До</div>
+                        <div class="old-button" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            Старый цвет
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">После</div>
+                        <div class="new-button diverse">
+                            🌈 Новый цвет
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="label">Легкое меню</div>
+                <div class="comparison-grid">
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">До</div>
+                        <div class="old-button" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            Старый цвет
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 4px;">После</div>
+                        <div class="new-button light">
+                            ☀️ Новый цвет
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>✨ Новые возможности</h3>
+            <ul>
+                <li>4 красивые кнопки с уникальными цветами</li>
+                <li>Эмодзи для лучшей визуальной идентификации</li>
+                <li>Плавные анимации при наведении</li>
+                <li>Новая функция "Случайное меню"</li>
+                <li>45 различных рецептов</li>
+                <li>Автоматическое сохранение в localStorage</li>
+                <li>Адаптивный дизайн для всех устройств</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Добавляем интерактивность
+        document.querySelectorAll('.button-preview').forEach(button => {
+            button.addEventListener('click', function() {
+                const type = this.textContent.trim();
+                alert(`Генерация меню: ${type}\n\nВ реальном приложении это создаст полное меню на неделю!`);
+            });
+        });
+    </script>
+</body>
+</html>

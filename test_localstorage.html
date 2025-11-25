@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест LocalStorage - FoodHelper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .output {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .status {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .menu-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .menu-day {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .menu-day h3 {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .menu-day p {
+            font-size: 12px;
+            color: #666;
+            margin: 4px 0;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🍽️</span>Тест LocalStorage</h1>
+        <p class="subtitle">Демонстрация работы локального хранилища данных меню</p>
+
+        <!-- Секция 1: Сохранение данных -->
+        <div class="section">
+            <h2><span class="emoji">💾</span>Сохранение данных</h2>
+            <div class="button-group">
+                <button class="btn-primary" onclick="saveTestMenu()">Сохранить тестовое меню</button>
+                <button class="btn-success" onclick="saveRandomMenu()">Сохранить случайное меню</button>
+            </div>
+            <div id="saveStatus"></div>
+        </div>
+
+        <!-- Секция 2: Загрузка данных -->
+        <div class="section">
+            <h2><span class="emoji">📂</span>Загрузка данных</h2>
+            <div class="button-group">
+                <button class="btn-info" onclick="loadMenu()">Загрузить меню</button>
+                <button class="btn-info" onclick="showStorageInfo()">Информация о хранилище</button>
+            </div>
+            <div id="loadOutput" class="output"></div>
+        </div>
+
+        <!-- Секция 3: Предпросмотр меню -->
+        <div class="section">
+            <h2><span class="emoji">👀</span>Предпросмотр меню</h2>
+            <div id="menuPreview" class="menu-preview"></div>
+        </div>
+
+        <!-- Секция 4: Управление -->
+        <div class="section">
+            <h2><span class="emoji">🗑️</span>Управление данными</h2>
+            <div class="button-group">
+                <button class="btn-danger" onclick="clearMenu()">Очистить меню</button>
+                <button class="btn-danger" onclick="clearAllStorage()">Очистить всё</button>
+            </div>
+            <div id="clearStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'foodhelper_menu_data';
+        const USER_ID = 1;
+
+        const daysOfWeek = [
+            'Понедельник', 'Вторник', 'Среда', 'Четверг',
+            'Пятница', 'Суббота', 'Воскресенье'
+        ];
+
+        const recipes = {
+            breakfast: ['Овсянка с протеином', 'Яичница', 'Блинчики', 'Йогурт с фруктами'],
+            lunch: ['Борщ', 'Паста карбонара', 'Куриная грудка с гречкой', 'Овощной суп'],
+            dinner: ['Рыба запеченная', 'Салат Цезарь', 'Творог с ягодами', 'Овощная запеканка']
+        };
+
+        function saveToLocalStorage(key, data, userId) {
+            try {
+                const storageData = {
+                    data: data,
+                    timestamp: Date.now(),
+                    userId: userId
+                };
+                localStorage.setItem(key, JSON.stringify(storageData));
+                return true;
+            } catch (error) {
+                console.error('Ошибка сохранения:', error);
+                return false;
+            }
+        }
+
+        function loadFromLocalStorage(key, userId) {
+            try {
+                const item = localStorage.getItem(key);
+                if (!item) return null;
+                
+                const storageData = JSON.parse(item);
+                if (userId !== undefined && storageData.userId !== userId) {
+                    return null;
+                }
+                
+                return storageData.data;
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                return null;
+            }
+        }
+
+        function saveTestMenu() {
+            const testMenu = {};
+            daysOfWeek.forEach(day => {
+                testMenu[day] = {
+                    breakfast: { id: 1, name: 'Овсянка с протеином' },
+                    lunch: { id: 2, name: 'Борщ' },
+                    dinner: { id: 3, name: 'Рыба запеченная' }
+                };
+            });
+
+            const success = saveToLocalStorage(STORAGE_KEY, testMenu, USER_ID);
+            showStatus('saveStatus', success, 
+                '✅ Тестовое меню успешно сохранено!', 
+                '❌ Ошибка сохранения меню');
+            
+            if (success) loadMenu();
+        }
+
+        function saveRandomMenu() {
+            const randomMenu = {};
+            daysOfWeek.forEach(day => {
+                randomMenu[day] = {
+                    breakfast: { 
+                        id: Math.random(), 
+                        name: recipes.breakfast[Math.floor(Math.random() * recipes.breakfast.length)]
+                    },
+                    lunch: { 
+                        id: Math.random(), 
+                        name: recipes.lunch[Math.floor(Math.random() * recipes.lunch.length)]
+                    },
+                    dinner: { 
+                        id: Math.random(), 
+                        name: recipes.dinner[Math.floor(Math.random() * recipes.dinner.length)]
+                    }
+                };
+            });
+
+            const success = saveToLocalStorage(STORAGE_KEY, randomMenu, USER_ID);
+            showStatus('saveStatus', success, 
+                '✅ Случайное меню успешно сохранено!', 
+                '❌ Ошибка сохранения меню');
+            
+            if (success) loadMenu();
+        }
+
+        function loadMenu() {
+            const menuData = loadFromLocalStorage(STORAGE_KEY, USER_ID);
+            const output = document.getElementById('loadOutput');
+            
+            if (menuData) {
+                output.textContent = JSON.stringify(menuData, null, 2);
+                displayMenuPreview(menuData);
+            } else {
+                output.textContent = 'Меню не найдено в localStorage.\nСохраните меню, чтобы увидеть данные.';
+                document.getElementById('menuPreview').innerHTML = '<p style="color: #999;">Нет данных для отображения</p>';
+            }
+        }
+
+        function displayMenuPreview(menuData) {
+            const preview = document.getElementById('menuPreview');
+            preview.innerHTML = '';
+
+            daysOfWeek.forEach(day => {
+                if (menuData[day]) {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'menu-day';
+                    dayDiv.innerHTML = `
+                        <h3>${day}</h3>
+                        <p>🌅 ${menuData[day].breakfast?.name || '—'}</p>
+                        <p>☀️ ${menuData[day].lunch?.name || '—'}</p>
+                        <p>🌙 ${menuData[day].dinner?.name || '—'}</p>
+                    `;
+                    preview.appendChild(dayDiv);
+                }
+            });
+        }
+
+        function showStorageInfo() {
+            const output = document.getElementById('loadOutput');
+            let info = '📊 Информация о localStorage:\n\n';
+            
+            // Проверка доступности
+            try {
+                localStorage.setItem('__test__', 'test');
+                localStorage.removeItem('__test__');
+                info += '✅ localStorage доступен\n\n';
+            } catch (e) {
+                info += '❌ localStorage недоступен\n\n';
+            }
+
+            // Размер данных
+            let totalSize = 0;
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    totalSize += localStorage[key].length + key.length;
+                }
+            }
+            info += `📦 Размер данных: ${(totalSize / 1024).toFixed(2)} KB\n`;
+            info += `📝 Количество ключей: ${localStorage.length}\n\n`;
+
+            // Список ключей FoodHelper
+            info += '🔑 Ключи FoodHelper:\n';
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('foodhelper_')) {
+                    const size = localStorage.getItem(key)?.length || 0;
+                    info += `  • ${key}: ${(size / 1024).toFixed(2)} KB\n`;
+                }
+            }
+
+            output.textContent = info;
+        }
+
+        function clearMenu() {
+            localStorage.removeItem(STORAGE_KEY);
+            showStatus('clearStatus', true, 
+                '✅ Меню успешно удалено!', 
+                '❌ Ошибка удаления меню');
+            
+            document.getElementById('loadOutput').textContent = 'Меню удалено из localStorage';
+            document.getElementById('menuPreview').innerHTML = '<p style="color: #999;">Нет данных для отображения</p>';
+        }
+
+        function clearAllStorage() {
+            if (confirm('Вы уверены, что хотите удалить ВСЕ данные FoodHelper из localStorage?')) {
+                const keys = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('foodhelper_')) {
+                        keys.push(key);
+                    }
+                }
+                
+                keys.forEach(key => localStorage.removeItem(key));
+                
+                showStatus('clearStatus', true, 
+                    `✅ Удалено ${keys.length} ключей из localStorage!`, 
+                    '❌ Ошибка очистки');
+                
+                document.getElementById('loadOutput').textContent = 'Все данные FoodHelper удалены';
+                document.getElementById('menuPreview').innerHTML = '<p style="color: #999;">Нет данных для отображения</p>';
+            }
+        }
+
+        function showStatus(elementId, success, successMsg, errorMsg) {
+            const statusDiv = document.getElementById(elementId);
+            statusDiv.className = `status ${success ? 'success' : 'error'}`;
+            statusDiv.textContent = success ? successMsg : errorMsg;
+            
+            setTimeout(() => {
+                statusDiv.textContent = '';
+                statusDiv.className = '';
+            }, 3000);
+        }
+
+        // Загрузить меню при загрузке страницы
+        window.onload = () => {
+            loadMenu();
+            showStorageInfo();
+        };
+    </script>
+</body>
+</html>
