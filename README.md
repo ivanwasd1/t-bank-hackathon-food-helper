@@ -37,7 +37,7 @@ git clone <url_репозитория>
 
 2. **Создайте файл `.env` в корневой папке:**
 ```
-GEMINI_API_KEY=AIzaSyBYQHZcGBl3aLT0l7p1nFiwReXv5S1vTSc
+GEMINI_API_KEY=
 PORT=5000
 DEBUG=False
 
