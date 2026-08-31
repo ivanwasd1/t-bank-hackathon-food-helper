@@ -1,0 +1,34 @@
+name: Remove exposed env from history
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrub-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove .env from every commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          OLD_MAIN="$(git rev-parse HEAD)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force \
+            --index-filter 'git rm --cached --ignore-unmatch .env' \
+            --prune-empty --tag-name-filter cat -- main
+          git for-each-ref --format='%(refname)' refs/original/ \
+            | xargs -r -n 1 git update-ref -d
+          if git rev-list --objects main | grep -E ' [.]env$'; then
+            echo ".env is still reachable from main"
+            exit 1
+          fi
+          git push --force-with-lease=refs/heads/main:"$OLD_MAIN" origin main
