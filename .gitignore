@@ -44,6 +44,7 @@ instance/
 # OS
 .DS_Store
 Thumbs.db
+*:Zone.Identifier
 
 # Uploads
 uploads/*
